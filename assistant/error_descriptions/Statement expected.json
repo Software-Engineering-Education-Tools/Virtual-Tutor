@@ -1,0 +1,11 @@
+{
+    "title": "Anweisung wird erwartet",
+
+    "description": "Der Code in Zeile %ROW% ist grammatikalisch falsch, so dass der Java-Compiler nicht verstehen kann, was hier überhaupt gemeint ist.",
+
+    "shortExplanation": "Java erfordert das strikte Einhalten der Syntax- und Grammatik-Regeln der Programmiersprache. Dein Code muss diese Regeln einhalten. In Zeile %ROW% sind an mindestens einer Stelle wichtige Elemente (Schlüsselwörter, Klammern, Kommas, etc.) falsch geschrieben oder fehlen, so dass der Java-Compiler den Code nicht korrekt interpretieren kann.",
+
+    "longExplanation": "Eine Anweisung (engl. Statement) ist in Java eine Aufforderung, mit der du der virtuellen Maschine von Java (JVM) mitteilst, was diese tun soll. Wie ein - im Imperativ formulierte - Satz in einer natürlichen Sprache stellt ein Statement eine komplette Handlungsanweisung dar. “Nimm diese Werte und mach das damit”. Eine Anweisung kann dabei aus Ausdrücken (engl. Expressions) zusammengebaut werden. Ein Beispiel für eine komplette Anweisung ist: int x = 42 + 1337; Das Ergebnis des Ausdrucks auf der rechten Seite wird der Variable x auf der linken Seite zugewiesen. Fehlt an einer zentralen Stelle deines Programms ein solcher Ausdruck, kann die Runtime nicht verstehen was das Programm tun soll, da du deine Anweisung nicht in einer Struktur (Grammatik) formuliert hast, die von ihr interpretiert werden kann.",
+
+    "solution": "Überprüfe den Code in Zeile %ROW% und stelle sicher, dass alle Schlüsselwörter (if, for, then, …) korrekt geschrieben sind, dass innerhalb der Klammern auch etwas steht (sofern welche da sind) dass in der Zeile entweder eine Zuweisung (x = 3) eine Deklaration (int zahl;) ein Methodenaufruf (doSomething();) oder ein anderer korrekter Ausdruck steht"
+}

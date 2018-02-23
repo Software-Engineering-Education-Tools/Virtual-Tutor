@@ -1,0 +1,11 @@
+{
+    "title": "'return' wird am Ende einer 'void'-Methode nicht benötigt",
+
+    "description": "Das 'return'-Statement am Ende der Methode %CONTAINING_METHOD% ist nicht notwendig und kann weggelassen werden.",
+
+    "shortExplanation": "Eine Methode mit dem Rückgabetyp 'void' gibt keinen Wert zurück. Deshalb muss man am Ende der Methode auch nicht explizit 'return;' aufrufen.",
+
+    "longExplanation": "Eine Methode mit dem Rückgabetyp 'void' gibt keinen Wert zurück und endet wenn das Ende des Methodenrumpfs erreicht ist. Wenn 'return' explizit aufgerufen wird, dann endet die Methode direkt an dieser Stelle. Alles was danach kommt, kann nicht mehr ausgeführt werden. Da die Zeile %ROW% die letzte in der Methode ist, muss man hier also nicht mehr explizit 'return;' aufrufen.",
+
+    "solution": "Lösche das 'return;'-Statement aus Zeile %ROW%. Soll die Methode einen Wert zurückgeben, also z. B. direkt mit ihrem Ergebnis etwas gemacht werden? In diesem Fall muss der Methodenkopf so geändert werden, dass er den korrekten Rückgabetyp enthält."
+}

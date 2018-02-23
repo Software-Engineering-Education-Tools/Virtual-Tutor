@@ -1,0 +1,11 @@
+{
+    "title": "Ein Parameter wird nicht verwendet",
+
+    "description": "In der Signatur der Methode %CONTAINING_METHOD% wird ein Parameter %SELECTED_TEXT% angegeben, der in der Methode selbst nicht genutzt wird.",
+
+    "shortExplanation": "Parameter dienen als Eingabewerte für Methoden. Ungenutzte Eingabewerte sind überflüssig oder zeigen, dass die Methode noch nicht genau das macht, was ihre Aufgabe ist.",
+
+    "longExplanation": "Eine Methode dient der Auslagerung von Berechnungen oder Programmabläufen. Dabei können der Methode Eingabewerte in Form von Parametern übergeben werden. Die Methode arbeitet dann mit diesen Werten, in dem auf die in den Parametern gespeicherten Werte zurückgegriffen wird. Die Parameter werden also innerhalb der Methode %CONTAINING_METHOD% verarbeitet. Das kann z.B. durch die Verwendung eines übergebenen numerischen Wertes innerhalb einer mathematischen Berechnung oder dem Zugriff oder der Veränderung von Eigenschaften eines übergebenen Objektes erfolgen. Wird einer der übergebenen Parameter nicht verwendet, heißt das, dass dieser für die Aufgabe der Methode nicht benötigt wird oder dass die Aufgabe der Methode noch nicht korrekt durchgeführt wird.",
+
+    "solution": "Prüfe die Eingabewerte und den Ablauf deiner Methode. Stelle fest, ob der Parameter %SELECTED_TEXT% tatsächlich für die Aufgabe, die du mit Hilfe der Methode lösen möchtest, notwendig ist. Faustregel: Eine Methode sollte immer eine Aufgabe lösen und alle dafür nötigen Werte, aktuellen als Parameter erhalten. Der Parameter wird nicht benötigt: Wenn das nicht der Fall ist, lösche den Parameter aus der Methodensignatur der Methode und ändere dementsprechend auch die Stellen deines Programms, an denen du die Methode aufrufst. Dort darf dann auch kein Wert mehr für den gelöschten Parameter an die Methode übergeben werden. Der Parameter wird benötigt aber nicht verwendet: Wenn du aber feststellst, dass der Parameter bzw. dessen Wert für die Aufgabe der Methode notwendig ist, versuche herauszufinden, warum du den Parameter nicht verwendest. Für welchen Teil der Aufgabe bzw. der Problemlösung benötigst du den Parameter? Warum fehlt dieser Teil? Mache dir bewusst, warum du den Wert eigentlich an die Methode übergeben hast."
+}

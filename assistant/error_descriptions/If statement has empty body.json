@@ -1,0 +1,11 @@
+{
+    "title": "Die 'if'-Anweisung ist leer",
+
+    "description": "Du verwendest in Zeile %ROW% eine if-Anweisung, gibst aber nicht an, was passieren soll, wenn die angegebene Bedingung eintritt.",
+
+    "shortExplanation": "If-Anweisungen dienen dazu, bestimmte Teile deines Codes nur dann auszuführen, wenn eine bestimmte Bedingung zutrifft. Hier wird eine If-Anweisung erstellt, Es fehlt aber der Code, der ausgeführt werden soll, wenn die Bedingung eintritt.",
+
+    "longExplanation": "Bei Bedingungen gibt es zwei Möglichkeiten: Sie tritt ein oder sie tritt nicht ein (true oder false). In einer if-Bedingung können mehrere Überprüfungen aneinandergereiht werden (if, else-if…, else). Für jede einzelne wird geprüft, ob diese wahr ist. Wenn dies so ist, dann wird der Code, der direkt nach der Bedingung im Rumpf steht ausgeführt. Fehlt der Code, passiert nichts, wenn die zugehörige Bedingung eintritt.",
+
+    "solution": "if-Bedingungen sollten immer positiv formuliert werden, d. h. man überprüft ob etwas wahr ist: “Wenn das, dann jenes” anstatt “wenn das nicht, dann jenes”. Dann sollte auch immer der Rumpf für die Bedingung mit dem Code bestückt werden, der beim Eintreten der Bedingung ausgeführt werden soll. Formuliert man die Bedingung nicht positiv (wenn das nicht, dann das), kann es passieren, dass der Rumpf der if-Bedingung leer bleibt. Das sollte man vermeiden und im Zweifel die Bedingung umstellen. Mache dir klar, was in deinem Programm passieren soll. Wie soll reagiert werden, wenn die definierte Bedingung eintritt? Implementiere diese Reaktion im Rumpf der if-Verzweigung."
+}

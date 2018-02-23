@@ -1,0 +1,11 @@
+{
+    "title": "Die 'return'-Anweisung fehlt",
+
+    "description": "In der Methode %CONTAINING_METHOD% in Zeile %ROW% fehlt eine “return”-Anweisung. Die Methode gibt beim Aufruf kein Ergebnis zurück.",
+
+    "shortExplanation": "In der Signatur der Methode %CONTAINING_METHOD% ist ein Datentyp für den Rückgabewert angegeben. Die Methode soll also einen Wert bzw. ein Ergebnis dieses Datentyps zurückgeben. In der Methode wird aber nie ein 'return …'-Statement verwendet, um einen Wert zurückzugeben.",
+
+    "longExplanation": "In der Signatur der Methode %CONTAINING_METHOD% wird versprochen, dass von der Methode letztendlich ein Wert  zurückgegeben wird. Das geschieht aber nur, wenn explizit ein Ergebnis in der Methode mit 'return …' zurückgegeben wird (dies beendet dann auch gleich die Ausführung der Methode). In Deiner Methode gibt es aber bisher noch kein 'return …'-Statement.",
+
+    "solution": "Schau dir deine Methode noch einmal an. Mache dir klar, was für einen Wert du mit der Methode berechnen willst. Was soll beim Aufrufen der Methode passieren? Welches Ergebnis soll an die Stelle, an der du die Methode aufrufst, zurückgegeben werden? Füge ein 'return ...'-Statement an einer passenden Stelle in Deiner Methode ein. Du solltest das 'return…'-Statement vermutlich ganz am Ende der Methode vor der schließenden geschweiften Klammer in Zeile %ROW% einfügen."
+}

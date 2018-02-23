@@ -1,0 +1,11 @@
+{
+    "title": "Sichtbarkeit kann 'private' sein",
+
+    "description": "Die Instanzvariable %SELECTED_TEXT% (oder die Methode %SELECTED_TEXT%), die Du in Zeile %ROW% definiert hast, sollte die Sichtbarkeit 'private' haben.",
+
+    "shortExplanation": "Auf die Instanzvariable oder Methode %SELECTED_TEXT% greifen in Deinem Projekt nur Methoden zu, die ebenfalls zur Klasse %FILENAME% gehören. Deshalb kann man die Sichtbarkeit von %SELECTED_TEXT% auf 'private' einschränken. Die Sichtbarkeit von Instanzvariablen und Methoden sollte generell so weit wie möglich eingeschränkt werden, um Fehler durch unkontrollierte Veränderung dieser zu vermeiden.",
+
+    "longExplanation": "Wenn verschiedene Programmteile/Objekte die Instanzvariablen anderer Objekte verändern, ohne dass dabei die üblichen Vorgehensweisen der objektorientierten Programmierung beachtet werden, führt das zu schwer wartbarem und fehleranfälligem Code. Unterschiedlich sichtbare Klassen und Methoden existieren, um den Programmablauf nachvollziehbar zu gestalten. Methoden oder Variablen, die nur innerhalb einer Klasse verwendet werden, müssen nicht von Außen sichtbar sein. Wenn der Zugriff von Außen notwendig ist, sollte dieser über getter- bzw. setter-Methoden erfolgen.",
+
+    "solution": "Setze die Sichtbarkeit der Methode oder Variable %SELECTED_TEXT% von 'public' auf 'private'. Prüfe die Methode bzw. Variable. Wird diese nur innerhalb der Klasse verwendet oder benötigen andere Teile deines Programms später Zugriff auf diese Eigenschaften oder Funktionen deines Programms. Wenn die Variable (oder Methode) nur intern benutzt wird,  schreibe den Sichtbarkeitsmodifikator 'private' vor die Definition der Variable %SELECTED_TEXT% (oder Methode %SELECTED_TEXT%). Dadurch verhinderst du, dass andere Programmteile diese Variable sehen und verändern können. Wird der Wert einer Variable auch an einer anderen Stelle deines Programms verwendet, musst du - zusätzlich zum Verstecken der Variable durch den private-Modifikator  - noch eine Möglichkeit zum sicheren Zugriff durch eine Getter-Methode."
+}

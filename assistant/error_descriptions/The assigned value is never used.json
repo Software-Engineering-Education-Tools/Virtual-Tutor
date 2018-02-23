@@ -1,0 +1,11 @@
+{
+    "title": "Der zugewiesene Wert wird nie verwendet",
+
+    "description": "Du weist der Variable %SELECTED_TEXT% einen Wert zu, verwendest diesen aber anschließend nie.",
+
+    "shortExplanation": "Der Variable %SELECTED_TEXT% wird zwar ein Wert zugewiesen, aber nie verwendet. Er fließt so z. B. in keine Berechnung ein und beeinflusst den weiteren Ablauf des Programms nicht.",
+
+    "longExplanation": "Eine Variable dient als Speicherort für Werte, mit denen im weiteren Verlauf einer Methode oder des Programms gerechnet oder gearbeitet werden soll. Dazu definiert man Variablen und weist ihnen ein- oder mehrmals neue Werte zu, die wiederum in andere Bedingungen oder Berechnungen einfliessen. Die grundsätzliche Idee einer Variable ist es also, Werte (zwischen-)zuspeichern, so dass wir später auf diese Inhalte zugreifen und sie verwenden können. Kommt es zu dieser Fehlermeldung, verhält sich dein Programm anders: Du speicherst einen Wert, ignorierst ihn dann aber. Das kann z.B. bedeuten, das die Variable mit dem Wert entweder überflüssig oder du vergessen hast, den Wert zu verwenden. Dies kann unterschiedliche Gründe haben. Eine Möglichkeit ist, dass das berechnete Ergebnis in einer Methode nicht zurückgegeben wird.",
+
+    "solution": "Mache dir klar, warum du die Variable ursprünglich angelegt hast. Was willst du mit dem gespeicherten Wert machen? Warum hast du dir den Wert gemekrt?. Überprüfe dann, warum die Variable später nicht verwendet wird. Benötigtst du den Wert wirklich nicht, oder ist der weitere Programmablauf fehlerhaft, weil du vergisst, auf den Wert zuzugreifen. Es kann z. B. sein, dass du aus Versehen zwei Variablen (vielleicht mit ähnlichem Namen) vertauscht hast."
+}

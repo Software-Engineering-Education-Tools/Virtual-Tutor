@@ -1,0 +1,10 @@
+{
+  "Missing return statement": [1, 5],
+  "Parameter is never used": [1, 10],
+  "access can be private": [1, 1],
+  "condition is always true": [1, 2],
+  "if statement has empty body": [1, 3],
+  "return is unnecessary as the last statement in a void method": [1, 5],
+  "statement expected": [1, 6],
+  "the assigned value is never used": [1, 6]
+}

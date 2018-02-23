@@ -1,0 +1,11 @@
+{
+    "title": "Bedingung ist immer erfüllt",
+
+    "description": "Die Bedingung, die geprüft werden soll, ist immer wahr (hat immer den Wert 'True').",
+
+    "shortExplanation": "Die Bedingung %SELECTED_TEXT% in Zeile %ROW% ist immer wahr. Das bedeutet, dass der Code im 'if'-Statement immer ausgeführt wird. Das ist eventuell nicht das, was Du eigentlich willst.",
+
+    "longExplanation": "Bedingungen in Java ergeben letztlich immer 'wahr' oder 'falsch', und werden zur Steuerung des Programmflusses benutzt. Sie können aus mehreren verknüpften Termen zusammengesetzt werden, deren jeweilige Wahrheitswerte verUNDet oder verODERt werden. Beim Erstellen einer solchen Bedingung kann es passieren, dass alle möglichen Belegungen 'wahr' ergeben, weil z.B. Wertebereiche von Ganzzahl-Variablen nicht richtig abgefragt werden.",
+
+    "solution": "Gehe deine Bedingung Schritt für Schritt durch und stelle sicher, dass alle einzelnen Ausdrücke dem entsprechen, was du überprüfen willst. Es kann helfen, noch einmal umgangssprachlich zu formulieren, wann die Bedingung zutreffen soll. Anschließend kannst Du daraus die konkreten Abfragen von Variablenwerten erzeugen, indem Du herausfindest, welche Variable(n) für dieses Zutreffen welche Werte annehmen müssen. Ein guter Weg ist, komplexe Bedingungen einzeln nacheinander abzuarbeiten (also zu Verschachteln), um den Überblick zu behalten."
+}

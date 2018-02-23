@@ -1,0 +1,63 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "./main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.7.8",
+    "electron-builder": "^19.56.0",
+    "electron-packager": "^11.0.0",
+    "fs": "0.0.1-security",
+    "jquery": "^3.3.1",
+    "materialize-css": "^0.100.2",
+    "path": "^0.12.7",
+    "pauseable": "^0.3.0",
+    "url": "^0.11.0",
+    "ws": "^3.3.3"
+  },
+  "dependencies": {
+    "bluebird-lst": "^1.0.5",
+    "fs": "0.0.1-security",
+    "hammer": "0.0.5",
+    "hammerjs": "^2.0.8",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "materialize-css": "^0.100.2",
+    "path": "^0.12.7",
+    "pauseable": "^0.3.0",
+    "url": "^0.11.0",
+    "ws": "^3.3.3",
+    "yarn": "^1.3.2"
+  },
+  "build": {
+    "appId": "de.roberts.ur.mi.ll",
+    "mac": {
+      "category": "your.app.category.type"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}
