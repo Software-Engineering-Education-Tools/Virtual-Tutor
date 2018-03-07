@@ -113,8 +113,7 @@ public class ProblemFetcher {
         }
 
         updatedErrors = getUpdatedErrors(this.currentErrorsSet, this.oldErrorsSet);
-        if (updatedErrors.size() > 0) {
-
+        if (!updatedErrors.isEmpty()) {
             setUpdated = true;
         }
 
