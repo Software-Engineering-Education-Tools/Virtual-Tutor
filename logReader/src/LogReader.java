@@ -9,10 +9,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.HashMap;
+
+import static java.util.Calendar.getInstance;
 
 public class LogReader {
 
+    private HashMap<String, Error> allErrorsHashmap;
     private HashMap<String, Error> errorHashMap;
     private long logTimestamp;
     private String userId;
@@ -20,6 +24,7 @@ public class LogReader {
     private boolean activeFileChanged;
 
     private LogWriter writer;
+    private int experimentDay;
 
 
     public static void main(String[] args) {
@@ -36,7 +41,7 @@ public class LogReader {
     }
 
     private LogReader() {
-        errorHashMap = new HashMap<>();
+        allErrorsHashmap = new HashMap<>();
         writer = new LogWriter(System.getProperty("user.dir") + "/results", Error.getCsvHeader());
 
     }
@@ -51,8 +56,9 @@ public class LogReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        errorHashMap.values().iterator().forEachRemaining(this::writeErrorToCsv);
+        allErrorsHashmap.values().iterator().forEachRemaining(this::writeErrorToCsv);
     }
+
 
     private void writeErrorToCsv(Error error) {
         writer.writeLine(error.toCsvLine());
@@ -60,28 +66,41 @@ public class LogReader {
 
     private void readFile(Path path) {
         System.out.println("\n\nCURRENT PATH = " + path);
+        errorHashMap = new HashMap<>();
+
         try {
             JsonStreamParser streamParser = new JsonStreamParser(new FileReader(path.toString()));
             while (streamParser.hasNext()) {
                 JsonElement jsonElement = streamParser.next();
                 processJsonElement(jsonElement);
             }
-            closeErrors();
+            errorHashMap.values().iterator().forEachRemaining(this::closeError);
+            addToAllErrors();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void closeErrors() {
-        for (Error error : errorHashMap.values()) {
-            error.close();
-        }
+    private void closeError(Error error) {
+        error.close(this.logTimestamp);
+    }
+
+
+    private void addToAllErrors() {
+        allErrorsHashmap.putAll(errorHashMap);
     }
 
 
     private void processJsonElement(JsonElement jsonElement) {
 
         this.logTimestamp = jsonElement.getAsJsonObject().getAsJsonPrimitive("logTime").getAsLong();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(this.logTimestamp);
+        this.experimentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(calendar.get(Calendar.YEAR));
+        //logTimestamp /= 1000;
+
         JsonObject logEntry = jsonElement.getAsJsonObject().getAsJsonObject("logEntry");
         processLogEntry(logEntry);
 
@@ -89,13 +108,22 @@ public class LogReader {
     }
 
     private void processLogEntry(JsonObject logEntry) {
-        if (logEntry.getAsJsonObject().has("activeFileChanged")) {
-            this.userId = logEntry.getAsJsonPrimitive("userName").getAsString();
-            System.out.println("logEntry = " + logEntry);
+        boolean hasRequestType = logEntry.getAsJsonObject().has("requestType");
+        boolean hasActiveFileChanged = logEntry.getAsJsonObject().has("activeFileChanged");
+        boolean isPushFromServer = !hasRequestType && hasActiveFileChanged;
+
+        if (isPushFromServer) {
+            String userName = logEntry.getAsJsonPrimitive("userName").getAsString();
+            this.userId = createUserId(userName);
+            System.out.println(userId);
+
+            //System.out.println(logEntry);
             this.activeFileChanged = logEntry.getAsJsonPrimitive("activeFileChanged").getAsBoolean();
+
             if (this.activeFileChanged) {
-                setClassActiveFalse();
+                closeErrors();
             }
+            //this entry is different file from last entry, therefore set currentFilename after setting classActive false
             this.currentFileName = logEntry.getAsJsonPrimitive("fileName").getAsString();
 
             //entry is list update
@@ -105,7 +133,7 @@ public class LogReader {
                 JsonObject removedErrorsEntry = logEntry.getAsJsonObject("removed");
                 updateErrorHashmap(this.logTimestamp, addedErrorsEntry, updatedErrorsEntry, removedErrorsEntry);
             }
-        } else if (logEntry.getAsJsonObject().has("requestType")) {
+        } else if (hasRequestType) {
             if (logEntry.getAsJsonObject().getAsJsonPrimitive("requestType").getAsString().equals("update")) return;
 
             String errorId = logEntry.getAsJsonPrimitive("errorId").getAsString();
@@ -124,12 +152,16 @@ public class LogReader {
         }
     }
 
-    private void setClassActiveFalse() {
-        for (Error error : errorHashMap.values()) {
-            if (error.getUserId().equals(this.userId) && error.getFilename().equals(this.currentFileName) && !error.isClosed()) {
-                error.setClassActive(this.currentFileName, false, this.logTimestamp);
-                //error.calculateDisplayed(this.logTimestamp);
+    private String createUserId(String userName) {
 
+        return userName + "_" + this.experimentDay;
+
+    }
+
+    private void closeErrors() {
+        for (Error error : errorHashMap.values()) {
+            if (!error.isClosed()) {
+                error.close(this.logTimestamp);
             }
         }
     }
@@ -143,27 +175,14 @@ public class LogReader {
         if (addedErrors != null) {
             addedErrors.iterator().forEachRemaining(this::addErrorToHashMap);
         }
-        if (removedErrors != null) {
-            removedErrors.iterator().forEachRemaining(this::updateRemovedErrorInformation);
-        }
         if (updatedErrors != null) {
             updatedErrors.iterator().forEachRemaining(this::updateExistingErrorInformation);
         }
-    }
-
-    private void updateExistingErrorInformation(JsonElement jsonElement) {
-        JsonObject errorJsonObject = jsonElement.getAsJsonObject();
-        String errorId = errorJsonObject.getAsJsonPrimitive("errorId").getAsString();
-        String key = getKey(errorId);
-        int row = errorJsonObject.getAsJsonPrimitive("row").getAsInt();
-        if (errorHashMap.containsKey(key) && !errorHashMap.get(key).isSolved()) {
-            Error error = errorHashMap.get(key);
-            error.setRow(row);
-
+        if (removedErrors != null) {
+            removedErrors.iterator().forEachRemaining(this::updateRemovedErrorInformation);
         }
-
-
     }
+
 
     private void addErrorToHashMap(JsonElement jsonElement) {
         JsonObject errorJsonObject = jsonElement.getAsJsonObject();
@@ -174,7 +193,6 @@ public class LogReader {
         if (errorHashMap.containsKey(key)) {
             error = errorHashMap.get(key);
 
-
         } else {
             error = new Error(errorId, this.userId, this.logTimestamp);
             error.setDelay(errorJsonObject.getAsJsonPrimitive("timeout").getAsInt());
@@ -184,7 +202,22 @@ public class LogReader {
 
             errorHashMap.put(key, error);
         }
-        error.setClassActive(this.currentFileName, true, this.logTimestamp);
+
+        error.open(this.logTimestamp);
+
+
+    }
+
+    private void updateExistingErrorInformation(JsonElement jsonElement) {
+        JsonObject errorJsonObject = jsonElement.getAsJsonObject();
+        String errorId = errorJsonObject.getAsJsonPrimitive("errorId").getAsString();
+        String key = getKey(errorId);
+        int row = errorJsonObject.getAsJsonPrimitive("row").getAsInt();
+        if (!errorHashMap.get(key).isSolved()) {
+            Error error = errorHashMap.get(key);
+            error.setRow(row);
+
+        }
 
 
     }
@@ -195,18 +228,21 @@ public class LogReader {
         String key = getKey(errorId);
         if (errorHashMap.containsKey(key)) {
             Error solvedError = errorHashMap.get(key);
-            solvedError.setSolved(this.logTimestamp);
-            solvedError.setClassActive(this.currentFileName, false, this.logTimestamp);
-            errorHashMap.remove(key);
-            errorHashMap.put(key + "_solved_" + solvedError.getErrorNum(), solvedError);
-            System.out.println("ERROR SOLVED: " + key + " " + this.logTimestamp);
+            if (!this.activeFileChanged) {
+                solvedError.setSolved(this.logTimestamp);
+                errorHashMap.remove(key);
+                errorHashMap.put(key + "_solved_" + solvedError.getErrorNum(), solvedError);
+                System.out.println("ERROR SOLVED: " + key + " " + this.logTimestamp);
+            }
+            solvedError.close(this.logTimestamp); //todo check
         }
 
 
     }
 
     private String getKey(String errorId) {
-        return this.currentFileName + this.userId + errorId;
+        System.out.println("KEY: " + this.currentFileName + this.userId + errorId);
+        return this.currentFileName + this.userId + "_" + this.experimentDay + "_" + errorId;
     }
 
 

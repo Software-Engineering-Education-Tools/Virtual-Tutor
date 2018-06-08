@@ -1,39 +1,39 @@
 public class Error {
 
-    private static int errorNumber;
+    private static int errorNumber; //ok
 
-    private final int errorNum;
-    private String errorId;
-    private String userId;
-    private String filename;
-    private String errorType;
-    private int delay;
-    private int row;
+    private final int errorNum; //ok
+    private String errorId; // ok
+    private String userId; //ok
+    private String filename; //ok
+    private String errorType; //ok
+    private int delay; //ok
+    private int row; //ok
 
-    private long occurredTimestamp;
-    private long displayedTimestamp;
-    private long solvedTimestamp;
-    private long detailFirstOpenedTimestamp;
-    private long detailLastOpenedTimestamp;
-    private long classActivateTimestamp;
+    private long occurredTimestamp; //ok
+    private long displayedTimestamp; //ok
+    private long solvedTimestamp; //ok
+    private long detailFirstOpenedTimestamp; //ok
+    private long detailLastOpenedTimestamp; //ok
+    private long classActivateTimestamp; //ok
 
-    private boolean solved;
-    private boolean displayed;
-    private boolean detailOpened;
-    private boolean closed;
+    private boolean solved; //ok
+    private boolean displayed; //ok
+    private boolean detailOpened; //ok
+    private boolean closed; //ok
 
-    private long errorDuration;
-    private long displayedDuration;
-    private long classActiveDuration;
-    private long firstDetailToSolvedDuration;
-    private long lastDetailToSolvedDuration;
-    private long detailOpenedDelay;
+    private long errorDuration; //ok
+    private long displayedDuration; //todo
+    private long classActiveDuration; //ok
+    private long firstDetailToSolvedDuration; //ok
+    private long lastDetailToSolvedDuration; //ok
+    private long detailOpenedDelay; //ok
 
 
-    private int updatedCount;
-    private int setCursorCount;
-    private int detailOpenedCount;
-    private int classActivatedCount;
+    private int updatedCount; //ok
+    private int setCursorCount; //ok
+    private int detailOpenedCount; //ok
+    private int classActivatedCount; //ok
 
 
     public Error(String errorId, String userId, long occurredTimestamp) {
@@ -42,6 +42,8 @@ public class Error {
         this.occurredTimestamp = occurredTimestamp;
         errorNumber++;
         this.errorNum = errorNumber;
+        this.closed = true;
+
 
     }
 
@@ -74,8 +76,9 @@ public class Error {
         if (detailFirstOpenedTimestamp == 0) {
             detailFirstOpenedTimestamp = timestamp;
             detailOpenedDelay = detailFirstOpenedTimestamp - displayedTimestamp;
+        } else {
+            detailLastOpenedTimestamp = timestamp;
         }
-        detailLastOpenedTimestamp = timestamp;
 
         this.detailOpened = true;
         detailOpenedCount++;
@@ -111,16 +114,28 @@ public class Error {
         this.solved = true;
         this.solvedTimestamp = timestamp;
         this.errorDuration = timestamp - this.occurredTimestamp;
-        calculateDisplayed(timestamp);
         calculateDetailToSolvedDurations(timestamp);
-        this.closed = true;
+        //close(timestamp);
 
 
     }
 
-    public void close() {
-        this.closed = true;
+    public void open(long timestamp) {
+        this.classActivateTimestamp = timestamp;
+        this.classActivatedCount++;
+        this.closed = false;
     }
+
+    public void close(long timestamp) {
+        this.closed = true;
+        this.classActiveDuration += (timestamp - this.classActivateTimestamp);
+
+        System.out.println("classActiveDuration = " + classActiveDuration);
+
+        calculateDisplayed(timestamp);
+    }
+
+
 
     private void calculateDetailToSolvedDurations(long timestamp) {
         if (detailOpened) {
@@ -132,10 +147,17 @@ public class Error {
     }
 
     public void calculateDisplayed(long timestamp) {
+        System.out.println("Error.calculateDisplayed");
+        System.out.println("displayed = " + displayed);
         if (classActiveDuration > delay && !displayed) {
             displayedTimestamp = timestamp - (classActiveDuration - delay);
             displayedDuration = timestamp - displayedTimestamp;
             displayed = true;
+            System.out.println("first if");
+        }
+        if (displayed) {
+            displayedDuration = classActiveDuration - delay;
+            System.out.println("displayedDuration = " + displayedDuration);
         }
     }
 
@@ -156,15 +178,6 @@ public class Error {
         return userId;
     }
 
-    public void setClassActive(String filename, boolean isActive, long timestamp) {
-        if (isActive) {
-            this.classActivateTimestamp = timestamp;
-            this.classActivatedCount++;
-        } else {
-            this.classActiveDuration += (timestamp - this.classActivateTimestamp);
-            calculateDisplayed(timestamp);
-        }
-    }
 
     public int getErrorNum() {
         return errorNum;
@@ -243,6 +256,8 @@ public class Error {
     public boolean isClosed() {
         return closed;
     }
+
+
 
 
 }
