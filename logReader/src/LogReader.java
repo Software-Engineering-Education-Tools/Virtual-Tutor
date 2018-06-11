@@ -56,7 +56,16 @@ public class LogReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Checking for unclosed errors...");
+        allErrorsHashmap.values().iterator().forEachRemaining(this::checkOpen);
         allErrorsHashmap.values().iterator().forEachRemaining(this::writeErrorToCsv);
+    }
+
+    private void checkOpen(Error error) {
+        if(error.getErrorDuration() == 0){
+            System.out.println(error.toCsvLine());
+        }
+
     }
 
 

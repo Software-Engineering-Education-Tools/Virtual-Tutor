@@ -75,7 +75,11 @@ public class Error {
     public void setDetailOpened(long timestamp) {
         if (detailFirstOpenedTimestamp == 0) {
             detailFirstOpenedTimestamp = timestamp;
-            detailOpenedDelay = detailFirstOpenedTimestamp - displayedTimestamp;
+            detailLastOpenedTimestamp = timestamp;
+            if (displayed) {
+
+                detailOpenedDelay = detailFirstOpenedTimestamp - displayedTimestamp;
+            }
         } else {
             detailLastOpenedTimestamp = timestamp;
         }
@@ -113,9 +117,8 @@ public class Error {
     public void setSolved(long timestamp) {
         this.solved = true;
         this.solvedTimestamp = timestamp;
-        this.errorDuration = timestamp - this.occurredTimestamp;
         calculateDetailToSolvedDurations(timestamp);
-        //close(timestamp);
+        close(timestamp);
 
 
     }
@@ -127,14 +130,20 @@ public class Error {
     }
 
     public void close(long timestamp) {
-        this.closed = true;
-        this.classActiveDuration += (timestamp - this.classActivateTimestamp);
+        if (!this.closed) {
 
-        System.out.println("classActiveDuration = " + classActiveDuration);
+            this.closed = true;
+            this.classActiveDuration += (timestamp - this.classActivateTimestamp);
+            this.errorDuration = timestamp - this.occurredTimestamp;
 
-        calculateDisplayed(timestamp);
+
+            calculateDisplayed(timestamp);
+        }
     }
 
+    public long getErrorDuration(){
+        return this.errorDuration;
+    }
 
 
     private void calculateDetailToSolvedDurations(long timestamp) {
@@ -147,17 +156,13 @@ public class Error {
     }
 
     public void calculateDisplayed(long timestamp) {
-        System.out.println("Error.calculateDisplayed");
-        System.out.println("displayed = " + displayed);
         if (classActiveDuration > delay && !displayed) {
             displayedTimestamp = timestamp - (classActiveDuration - delay);
             displayedDuration = timestamp - displayedTimestamp;
             displayed = true;
-            System.out.println("first if");
         }
         if (displayed) {
             displayedDuration = classActiveDuration - delay;
-            System.out.println("displayedDuration = " + displayedDuration);
         }
     }
 
@@ -256,8 +261,6 @@ public class Error {
     public boolean isClosed() {
         return closed;
     }
-
-
 
 
 }
