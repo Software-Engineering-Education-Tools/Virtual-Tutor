@@ -18,11 +18,6 @@ These scripts can be used as a starting point for your own scripts. There is not
 
 # Complete package of a runnable version of the assistant
 
-Unfortunately GitHub does not allow files larger than 25 megabytes.
-The following link leads to a Google Drive folder where you can download the Virtual Assistant to try it out.
-
-https://drive.google.com/open?id=1NWHF2QWZUguBOFE8rv7U2ppq4hlIMllx
-
-Once you unpack the zip-file you will find a portable version of IntelliJ with the plugin already installed. All you need to do, is to click on the 'idea'-shortcut at the top-most level in the folder.
+A working version of the Virtual Tutor (including a Demo project) can be downloaded here: https://github.com/Software-Engineering-Education-Tools/Virtual-Tutor/releases/tag/1.0. Once you unpack the zip-file you will find a portable version of IntelliJ with the plugin already installed. All you need to do, is to click on the 'idea'-shortcut at the top-most level in the folder.
 
 **Please note:** Currently there is only a windows version of the Virtual Assistant available.
